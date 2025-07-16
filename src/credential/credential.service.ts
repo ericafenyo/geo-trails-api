@@ -1,17 +1,16 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import bcrypt = require("bcrypt");
-import { DataSource, Repository } from "typeorm";
 import { User } from "src/user/user.entity";
 import { errors } from "src/errors";
 import { Credential } from "./credential.entity";
 
 @Injectable()
 export class CredentialService {
-  constructor(private dataSource: DataSource) {}
+  constructor() {}
 
-  private userRepository = this.dataSource.getRepository(User);
+  private userRepository: any = {};
 
-  private credentialRepository = this.dataSource.getRepository(Credential);
+  private credentialRepository: any = {};
 
   async save(email: string, password: string): Promise<void> {
     const hashedPassword = await this.hash(password);

@@ -6,10 +6,9 @@ import { UserResolver } from "./user.resolver";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import { OtpModule } from "src/otp/otp.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), CredentialModule, MailModule, OtpModule],
+  imports: [CredentialModule, MailModule, OtpModule],
   providers: [UserService, UserResolver],
   exports: [UserService],
 })

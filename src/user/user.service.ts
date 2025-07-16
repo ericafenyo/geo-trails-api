@@ -9,18 +9,17 @@ import { User } from "./user.entity";
 import { CredentialService } from "../credential/credential.service";
 import { MailService } from "../mail/mail.service";
 import { CreateUserInput, Gender } from "./user.types";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 import { EmailAddressManager } from "src/util/email-address-manager";
 import { UserIdentity } from "src/auth/auth.types";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private repository: Repository<User>,
     private readonly credentialService: CredentialService,
     private readonly mailService: MailService,
   ) {}
+
+  private repository: any = {};
 
   async findById(id: string, validate: boolean = true): Promise<User> {
     const user = await this.repository.findOneBy({ uuid: id });

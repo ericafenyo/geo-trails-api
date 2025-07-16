@@ -32,7 +32,6 @@
     "@nestjs/mongoose": "^9.1.0",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.4.5",
-    "@nestjs/typeorm": "^9.0.1",
     "apollo-server-express": "^3.8.1",
     "aws-sdk": "^2.1176.0",
     "bcrypt": "^5.0.1",
@@ -54,7 +53,6 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.5",
     "speakeasy": "^2.0.0",
-    "typeorm": "^0.3.12",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

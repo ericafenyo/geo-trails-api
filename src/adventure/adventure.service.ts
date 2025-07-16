@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { UserService } from "src/user/user.service";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 import { Adventure } from "./adventure.entity";
 import { Location } from "./location.entity";
 import { AdventureInput, LocationInput } from "./adventure.types";
@@ -9,11 +7,10 @@ import { Polyline } from "src/util/polyline";
 
 @Injectable()
 export class AdventureService {
-  constructor(
-    @InjectRepository(Adventure) private repository: Repository<Adventure>,
-    @InjectRepository(Location) private locationRepository: Repository<Location>,
-    private userService: UserService,
-  ) {}
+  constructor(private userService: UserService) {}
+
+  private repository: any = {};
+  private locationRepository: any = {};
 
   async getAdventures() {
     return this.repository

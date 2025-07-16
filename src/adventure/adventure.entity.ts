@@ -1,56 +1,47 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
-
 import { Location } from "./location.entity";
 import { Distance, Energy, Speed } from "./adventure.types";
 
-@Entity()
+
 export class Adventure {
-  @PrimaryGeneratedColumn()
+  // @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  // @Column({ unique: true })
   uuid: string;
 
-  @Column({ default: "" })
+  // @Column({ default: "" })
   title: string;
 
-  @Column({ default: "" })
+  // @Column({ default: "" })
   description: string;
 
-  @Column({type: "simple-json"})
+  // @Column({type: "simple-json"})
   energy: Energy;
 
-  @Column({ type: "simple-json" })
+  // @Column({ type: "simple-json" })
   distance: Distance;
 
-  @Column()
+  // @Column()
   duration: number;
 
-  @Column({ name: "start_time" })
+  // @Column({ name: "start_time" })
   startTime: Date;
 
-  @Column({ name: "end_time" })
+  // @Column({ name: "end_time" })
   endTime: Date;
 
-  @Column({type: "simple-json"})
+  // @Column({type: "simple-json"})
   speed: Speed;
 
-  @Column()
+  // @Column()
   polyline: string;
 
-  @OneToMany(() => Location, location => location.adventure)
+  // @OneToMany(() => Location, location => location.adventure)
   locations: Location[];
 
-  @CreateDateColumn({ name: "created_at" })
+  // @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  // @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 }
