@@ -69,7 +69,7 @@ export class AuthService {
     });
 
     if (previousToken) {
-      refreshToken.previousTokenId = previousToken._id;
+      // refreshToken.previousTokenId = previousToken._id;
       previousToken.revokedAt = new Date();
       await previousToken.save();
     }

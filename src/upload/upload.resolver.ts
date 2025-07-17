@@ -1,6 +1,4 @@
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
-import * as GraphQLUpload from "graphql-upload/GraphQLUpload.js";
-import { FileUpload } from "graphql-upload";
 import { UploadService } from "./upload.service";
 import { UploadedFile } from "./upload.types";
 import { ReadStream } from "fs";
@@ -11,9 +9,7 @@ export class UploadResolver {
 
   @Mutation(() => UploadedFile)
   async uploadFile(
-    @Args("file", { type: () => GraphQLUpload }) file: FileUpload,
   ): Promise<UploadedFile> {
-    const stream: any = file.createReadStream();
-    return await this.uploadService.upload(stream);
+    return null;
   }
 }
