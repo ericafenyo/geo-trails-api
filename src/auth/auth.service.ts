@@ -1,12 +1,13 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { JwtService, JwtSignOptions } from "@nestjs/jwt";
-import { UserService } from "src/user/user.service";
+import { UserService } from "@/user/user.service";
 import speakeasy = require("speakeasy");
 import { randomBytes } from "crypto";
 import { RefreshToken } from "./refresh-token.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserIdentity } from "./auth.types";
+import { Tokens } from "./tokens";
 
 export interface JWTokens {
   accessToken: string;
@@ -37,7 +38,7 @@ export class AuthService {
    *
    * @returns a {@link JWTokens} object.
    */
-  async getToken(user: UserIdentity): Promise<JWTokens> {
+  async getToken(user: UserIdentity): Promise<any> {
     return {
       accessToken: await this.generateAccessToken(user),
       refreshToken: await this.generateRefreshToken(user),

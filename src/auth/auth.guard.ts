@@ -1,6 +1,5 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 
@@ -15,14 +14,14 @@ export class LocalAuthGuard extends AuthGuard('local') {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     // Reconstruct the ExecutionContext to be compatible with a GraphQL requests.
-    const ctx = GqlExecutionContext.create(context);
+    // const ctx = GqlExecutionContext.create(context);
     // This code extracts the HTTP request body.
     // I wonder why it was in #getResponse() and not #getRequest()
-    const body = ctx.switchToHttp().getResponse();
+    const body = context.switchToHttp().getResponse();
 
     // Reconstruct the request an attached our custom body because
     // the original body was just a stringified GraphQL query.
-    const request = ctx.getContext().req;
+    const request = context.switchToHttp().getRequest();
     request.body = body;
     return super.canActivate(new ExecutionContextHost([request]));
   }
@@ -31,7 +30,6 @@ export class LocalAuthGuard extends AuthGuard('local') {
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   getRequest(context: ExecutionContext) {
-    const ctx = GqlExecutionContext.create(context);
-    return ctx.getContext().req;
+    return context.switchToHttp().getRequest();
   }
 }

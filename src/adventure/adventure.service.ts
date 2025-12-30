@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { UserService } from "src/user/user.service";
+import { UserService } from "@/user/user.service";
 import { Adventure } from "./adventure.entity";
 import { Location } from "./location.entity";
 import { AdventureInput, LocationInput } from "./adventure.types";
-import { Polyline } from "src/util/polyline";
+import { Polyline } from "@/util/polyline";
 
 @Injectable()
 export class AdventureService {

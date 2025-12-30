@@ -1,7 +1,3 @@
-
-
-import { Gender } from "./user.types";
-
 export class User {
   // @PrimaryGeneratedColumn()
   id: number;
@@ -16,11 +12,8 @@ export class User {
   // @Column({ default: "" })
   username: string;
 
-  // @Column({ enum: [Gender.MALE, Gender.FEMALE, Gender.UNSPECIFIED], default: Gender.UNSPECIFIED })
-  gender: string;
-
   // @Column({ name: "avatar_path", default: "" })
-  avatarPath: string;
+  avatar: string;
 
   // @Column({ default: false })
   activated: boolean;

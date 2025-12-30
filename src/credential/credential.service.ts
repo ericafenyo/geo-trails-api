@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import bcrypt = require("bcrypt");
-import { User } from "src/user/user.entity";
-import { errors } from "src/errors";
+import { User } from "@/user/user.entity";
+import { errors } from "@/errors";
 import { Credential } from "./credential.entity";
 
 @Injectable()

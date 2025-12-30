@@ -1,7 +1,4 @@
 import { Module } from "@nestjs/common";
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { GraphQLModule } from "@nestjs/graphql";
-import { join } from "path";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AppController } from "./app.controller";
 import { UserModule } from "./user/user.module";
@@ -18,12 +15,6 @@ require("dotenv").config();
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URL),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: join(process.cwd(), "src/schema.gql"),
-      introspection: true,
-      driver: ApolloDriver,
-      playground: true,
-    }),
     UserModule,
     AdventureModule,
     AuthModule,

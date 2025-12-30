@@ -1,20 +1,28 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Types } from "mongoose";
-import { User } from "src/user/user.entity";
+import { Types, HydratedDocument } from "mongoose";
+import { User } from "@/user/user.entity";
 
-@Schema()
-export class Credential extends Document {
+/**
+ *  An object that defines the structure of user credentials.
+ */
+@Schema({ timestamps: true })
+export class Credential {
+  /**
+   * The user associated with the credential.
+   */
   @Prop({ type: Types.ObjectId, ref: User.name, unique: true })
-  userId: string;
+  user: User;
 
+  /**
+   * The password associated with the credential.
+   */
   @Prop()
   password: string;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
 
-  @Prop({ default: Date.now })
-  updatedAt: Date;
+  static get 
 }
+
+export type CredentialDocument = HydratedDocument<Credential>;
 
 export const CredentialSchema = SchemaFactory.createForClass(Credential);

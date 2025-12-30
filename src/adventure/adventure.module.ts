@@ -1,13 +1,9 @@
 import { Module } from "@nestjs/common";
-import { UserModule } from "src/user/user.module";
-import { AdventureResolver } from "./adventure.resolver";
-
+import { UserModule } from "@/user/user.module";
 import { AdventureService } from "./adventure.service";
-import { Adventure } from "./adventure.entity";
-import { Location } from "./location.entity";
 
 @Module({
   imports: [UserModule],
-  providers: [AdventureService, AdventureResolver],
+  providers: [AdventureService],
 })
 export class AdventureModule {}
