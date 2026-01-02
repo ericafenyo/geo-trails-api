@@ -3,7 +3,10 @@ import { AuthService } from "./auth.service";
 import { Resource } from "@/types/resource";
 import { Tokens } from "./tokens";
 
-@Controller("auth")
+@Controller({
+  path: "auth",
+  version: "1",
+})
 export class AuthController {
   constructor(private service: AuthService) {}
 

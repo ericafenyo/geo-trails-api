@@ -8,19 +8,16 @@ import { User } from "@/user/user.entity";
 @Schema({ timestamps: true })
 export class Credential {
   /**
-   * The user associated with the credential.
-   */
-  @Prop({ type: Types.ObjectId, ref: User.name, unique: true })
-  user: User;
-
-  /**
    * The password associated with the credential.
    */
   @Prop()
   password: string;
 
-
-  static get 
+  /**
+   * The user associated with the credential.
+   */
+  @Prop({ type: Types.ObjectId, ref: User.name, unique: true })
+  user: User;
 }
 
 export type CredentialDocument = HydratedDocument<Credential>;

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Status } from "./user.types";
 import { HydratedDocument } from "mongoose";
 
 /**
@@ -9,38 +10,46 @@ export class User {
   /**
    * A secondary identifier for the user.
    */
-  @Prop()
+  @Prop({required: true, unique: true})
   uuid: string;
 
   /**
    * A code associated with the user for look-up purposes.
    */
-  @Prop()
+  @Prop({required: true, unique: true})
   code: string;
 
   /**
    * The email address of the user.
    */
-  @Prop()
+  @Prop({required: true, unique: true})
   email: string;
 
   /**
    * The username of the user.
    */
-  @Prop()
-  username: string;
+  @Prop({ unique: true, sparse: true })
+  username?: string;
+
+  @Prop({default: ""})
+  firstName: string;
+
+  @Prop({default: ""})
+  lastName: string;
+
+  @Prop({enum: Status,required: true, default: Status.ACTIVE})
+  status: Status;
+
+  @Prop({required: true, default: false})
+  activated: boolean;
 
   /**
    * The URL pointing to the avatar image of the user.
    */
-  @Prop()
+  @Prop({default: ""})
   avatar: string;
 }
 
 export type UserDocument = HydratedDocument<User>;
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-// UserSchema.virtual("uid").get(function (this: User) {
-//   return this.uuid;
-// });

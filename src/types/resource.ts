@@ -13,7 +13,6 @@ export interface Exception {
 
 export type ResourceIdentifier = {
   id: string;
-  type: string;
 };
 
 export interface Attributes {

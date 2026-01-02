@@ -4,7 +4,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from "@nestjs/common";
-import { User } from "./user.schema";
+import { User, UserDocument } from "./user.schema";
 import { CredentialService } from "../credential/credential.service";
 import { MailService } from "../mail/mail.service";
 import { UnregisteredUser } from "./user.types";
@@ -22,10 +22,16 @@ const crypto = require("crypto");
 
 @Injectable()
 export class UserService {
+  remove(id: string) {
+    throw new Error("Method not implemented.");
+  }
+  update(id:  string, updateUserDto: any) {
+    throw new Error("Method not implemented.");
+  }
   constructor(
+    @InjectModel(USER_MODEL) private readonly model: Model<UserDocument>,
     private readonly credentialService: CredentialService,
     private readonly mailService: MailService,
-    private readonly repository: UserRepository,
   ) {}
 
   /**
@@ -34,21 +40,22 @@ export class UserService {
    * @param user an object containing the user's information
    */
   async create(user: UnregisteredUser): Promise<ResourceIdentifier> {
-    // const model = new this.model(user);
-    const userModel = {
+    const model = {
       email: user.email,
       uuid: crypto.randomUUID(),
-      avatar: "",
-      username: "",
       code: this.generateCode(),
     };
 
-    const document = await this.repository.create(userModel);
+    const document =  new this.model(model);
 
-    return {
-      id: document._id.toString(),
-      type: "user",
-    };
+
+    // console.log({document});
+
+    await this.mailService.sendAccountVerificationCode(user.email, { code: document.code });
+    
+
+    return { id: document.uuid };
+    // return await document.save();
 
     // const emailManager = EmailAddressManager.getInstance(user.email);
     // // Checks if th email address is valid
