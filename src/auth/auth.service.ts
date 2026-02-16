@@ -1,13 +1,12 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { JwtService, JwtSignOptions } from "@nestjs/jwt";
-import { UserService } from "@/user/user.service";
-import speakeasy = require("speakeasy");
+import { Injectable } from "@nestjs/common";
 import { randomBytes } from "crypto";
-import { RefreshToken } from "./refresh-token.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+
+import { JwtService, JwtSignOptions } from "@nestjs/jwt";
+import { UserService } from "@/user/user.service";
+import { RefreshToken } from "./refresh-token.schema";
 import { UserIdentity } from "./auth.types";
-import { Tokens } from "./tokens";
 
 export interface JWTokens {
   accessToken: string;
@@ -32,7 +31,7 @@ export class AuthService {
   }
 
   /**
-   * Generates Json Web Tokens.
+   * Generates JSON Web Tokens.
    *
    * @param {UserIdentity} user a metadata of the authenticated user.
    *
@@ -77,22 +76,5 @@ export class AuthService {
 
     await refreshToken.save();
     return refreshToken.value;
-  }
-
-  async generateOneTimeUseCode(email: string) {
-    const secret = process.env.OTP_SECRETE;
-
-    const token = speakeasy.totp({
-      secret: secret,
-      encoding: "base32",
-    });
-
-    const isValid = speakeasy.totp.verify({
-      secret: secret,
-      encoding: "base32",
-      token: 98765,
-    });
-
-    // const currentUser = await this.userService.findByEmail(email, false);
   }
 }

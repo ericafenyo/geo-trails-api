@@ -26,10 +26,4 @@ export class AuthResolver {
   ): Promise<JWTokens> {
     return await this.authService.getToken(user);
   }
-
-  async sendVerificationCode(args: OptArgs): Promise<OptType> {
-    await this.authService.generateOneTimeUseCode(args.email);
-
-    return args;
-  }
 }
