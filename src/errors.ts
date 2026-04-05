@@ -1,10 +1,10 @@
 export const errors = {
   validation: {
-    invalidEmail: 'Email address is invalid',
+    invalidEmail: "Invalid email address",
   },
   user: {
-    alreadyCreated: 'User already exists',
-    accountNotFound: 'User has no account',
-    invalidCredentials: 'Invalid credentials',
+    alreadyCreated: "User already exists",
+    accountNotFound: "User has no account",
+    invalidCredentials: "Invalid credentials",
   },
 };

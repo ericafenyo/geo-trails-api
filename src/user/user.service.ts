@@ -1,40 +1,112 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { isEmail } from 'class-validator';
-import { errors } from '../errors';
-import { User } from './user.schema';
-import { CredentialService } from '../credential/credential.service';
-import { MailService } from '../mail/mail.service';
-import { OtpService } from 'src/otp/otp.service';
-import speakeasy = require('speakeasy');
-import { CreateUserInput } from './user.types';
-import { v4 as uuid } from 'uuid';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import crypto from "crypto";
+
+import { User, UserDocument } from "./user.schema";
+import { CredentialService } from "@/credential/credential.service";
+import { MailService } from "@/mail/mail.service";
+import { UnregisteredUser } from "./user.types";
+import { UserIdentity } from "@/auth/auth.types";
+import { ResourceIdentifier } from "@/types/resource";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(User.name) private readonly model: Model<UserDocument>,
     private readonly credentialService: CredentialService,
-    private readonly optService: OtpService,
     private readonly mailService: MailService,
   ) {}
 
+  remove(id: string) {
+    throw new Error("Method not implemented.");
+  }
+
+  update(id: string, updateUserDto: any) {
+    throw new Error("Method not implemented.");
+  }
+
+
+  /**
+   * Add a user to the database.
+   *
+   * @param user an object containing the user's information
+   */
+  async create(user: UnregisteredUser): Promise<ResourceIdentifier> {
+    const model = {
+      email: user.email,
+      uuid: crypto.randomUUID(),
+      code: this.generateCode(),
+    };
+
+    const document = new this.model(model);
+
+
+    // console.log({document});
+
+    await this.mailService.sendAccountVerificationCode(user.email, { code: document.code });
+
+
+    return { id: document.uuid };
+    // return await document.save();
+
+    // const emailManager = EmailAddressManager.getInstance(user.email);
+    // // Checks if th email address is valid
+    // if (!emailManager.hasValidEmail()) {
+    //   throw new BadRequestException(errors.validation.invalidEmail);
+    // }
+    // Throw error if the user already exists
+    // const userExists = await this.getExistsByEmail(args.email);
+    // if (userExists) {
+    //   throw new ConflictException(errors.user.alreadyCreated);
+    // }
+    // const maxRowId = await this.repository.maximum("id");
+    // const username = emailManager.getUsername() + (maxRowId + 1);
+    // // Create a new user entity
+    // const entity = this.repository.create();
+    // entity.email = args.email;
+    // entity.username = username;
+    // const user: any = await this.repository.save(entity);
+    // // Save the user credentials
+    // await this.credentialService.save(args.email, args.password);
+    // user.user = "";
+    // return user;
+    // Check if the user has an any opt verification
+    // const currentOpt = await this.optService.findByEmail(email);
+    // if (currentOpt) {
+    //   // User has at least one otp verification
+    //   //Get access to one in progress
+    // }
+    // this.mailService.sendAccountVerificationCode(email, {});
+    // Validate the email
+    // const secret = speakeasy.generateSecret();
+    // var token = speakeasy.totp({
+    //   secret: secret.base32,
+    //   encoding: 'base32',
+    // });
+    // var tokenValidates = speakeasy.totp.verify({
+    //   secret: secret.base32,
+    //   encoding: 'base32',
+    //   token: token,
+    // });
+    // Save and return the user information
+    // const userinfo = new this.repository.create();
+    // const savedUser = await this.userModel.create({ ...user, uuid: uuid() });
+    // await this.credentialService.save(savedUser.id, user.password);
+    // return savedUser;
+    // return userinfo;
+  }
+
   async findById(id: string, validate: boolean = true): Promise<User> {
-    const user = await this.userModel.findOne({ id });
+    // const user = await this.repository.findOne({ uuid: id });
 
-    if (validate) {
-      if (!user) {
-        throw new NotFoundException(errors.user.accountNotFound);
-      }
-    }
+    // if (validate) {
+    //   if (!user) {
+    //     throw new NotFoundException(errors.user.accountNotFound);
+    //   }
+    // }
 
-    return user;
+    return null;
   }
 
   /**
@@ -44,69 +116,118 @@ export class UserService {
    * @param validate if true, throw error if the user does not exist
    */
   async findByEmail(email: string, validate = true): Promise<User> {
-    const user = await this.userModel.findOne({ email });
-    if (validate && !user) {
-      throw new NotFoundException(errors.user.accountNotFound);
-    }
-    return user;
+    // const user = await this.repository.findOne();
+    // if (validate && !user) {
+    //   throw new NotFoundException(errors.user.accountNotFound);
+    // }
+    return null;
+  }
+
+  // /**
+  //  * Add a user to the database.
+  //  *
+  //  * @param args an object containing the user's information
+  //  */
+  // async createUser(args: CreateUserInput): Promise<User> {
+  //   const emailManager = EmailAddressManager.getInstance(args.email);
+
+  //   // Checks if th email address is valid
+  //   if (!emailManager.hasValidEmail()) {
+  //     throw new BadRequestException(errors.validation.invalidEmail);
+  //   }
+
+  //   // Throw error if the user already exists
+  //   const userExists = await this.getExistsByEmail(args.email);
+  //   if (userExists) {
+  //     throw new ConflictException(errors.user.alreadyCreated);
+  //   }
+
+  //   const maxRowId = await this.repository.maximum("id");
+
+  //   const username = emailManager.getUsername() + (maxRowId + 1);
+
+  //   // Create a new user entity
+  //   const entity = this.repository.create();
+  //   entity.email = args.email;
+  //   entity.username = username;
+
+  //   const user: any = await this.repository.save(entity);
+
+  //   // Save the user credentials
+  //   await this.credentialService.save(args.email, args.password);
+
+  //   user.user = "";
+
+  //   return user;
+
+  //   // Check if the user has an any opt verification
+  //   // const currentOpt = await this.optService.findByEmail(email);
+
+  //   // if (currentOpt) {
+  //   //   // User has at least one otp verification
+  //   //   //Get access to one in progress
+  //   // }
+
+  //   // this.mailService.sendAccountVerificationCode(email, {});
+  //   // Validate the email
+
+  //   // const secret = speakeasy.generateSecret();
+
+  //   // var token = speakeasy.totp({
+  //   //   secret: secret.base32,
+  //   //   encoding: 'base32',
+  //   // });
+
+  //   // var tokenValidates = speakeasy.totp.verify({
+  //   //   secret: secret.base32,
+  //   //   encoding: 'base32',
+  //   //   token: token,
+  //   // });
+
+  //   // Save and return the user information
+
+  //   // const userinfo = new this.repository.create();
+
+  //   // const savedUser = await this.userModel.create({ ...user, uuid: uuid() });
+  //   // await this.credentialService.save(savedUser.id, user.password);
+  //   // return savedUser;
+
+  //   // return userinfo;
+  // }
+
+  /**
+   * Find a user using the provided {@link email}
+   *
+   * @param email the user's email address
+   * @param validate if true, throw error if the user does not exist
+   */
+  private async getExistsByEmail(email: string): Promise<boolean> {
+    return false;
+    // return await this.repository.exist({ where: { email } });
   }
 
   /**
-   * Add a user to the database.
+   * Returns a user from the database.
    *
-   * @param userInput an object containing the user's information
+   * @param args the users information
    */
-  async createUser(user: CreateUserInput): Promise<User> {
-    // Checks if th email address is valid
-    const { email } = user;
-    if (!isEmail(email)) {
-      throw new BadRequestException(errors.validation.invalidEmail);
-    }
-
-    // Find a user with the same email
-    const currentUser = await this.findByEmail(email, false);
-
-    // Throw error if the user already exists
-    if (currentUser) {
-      throw new ConflictException(errors.user.alreadyCreated);
-    }
-
-    // Check if the user has an any opt verification
-    // const currentOpt = await this.optService.findByEmail(email);
-
-    // if (currentOpt) {
-    //   // User has at least one otp verification
-    //   //Get access to one in progress
-    // }
-
-    // this.mailService.sendAccountVerificationCode(email, {});
-    // Validate the email
-
-    // const secret = speakeasy.generateSecret();
-
-    // var token = speakeasy.totp({
-    //   secret: secret.base32,
-    //   encoding: 'base32',
-    // });
-
-    // var tokenValidates = speakeasy.totp.verify({
-    //   secret: secret.base32,
-    //   encoding: 'base32',
-    //   token: token,
-    // });
-
-    // console.log(secret);
-
-    // Save and return the user information
-
-    const savedUser = await this.userModel.create({ ...user, uuid: uuid() });
-    await this.credentialService.save(savedUser.id, user.password);
-    return savedUser;
+  async getUser(args: UserIdentity): Promise<User> {
+    return await this.findByEmail(args.email);
   }
 
-  async validate(email: string, password: string): Promise<User | null> {
-    const user = await this.findByEmail(email);
-    const isValid = await this.credentialService.validate(user._id, password);
-    return isValid ? user : null;
+  async validate(email: string, password: string): Promise<UserIdentity | null> {
+    // const user = await this.findByEmail(email);
+
+    // const isValid = await this.credentialService.validate(user, password);
+
+    // return isValid ? { id: user.uuid, email: email } : null;
+
+    return null;
+  }
+
+  private generateCode() {
+    const hash = crypto.createHash("sha256").update(crypto.randomUUID()).digest("hex");
+    const short = hash.slice(0, 8);
+    return short.toUpperCase();
   }
 }

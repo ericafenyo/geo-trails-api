@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { MailModule } from '../mail/mail.module';
-import { CredentialModule } from '../credential/credential.module';
-import { UserResolver } from './user.resolver';
-import { User, UserSchema } from './user.schema';
-import { UserService } from './user.service';
-import { OtpModule } from 'src/otp/otp.module';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { MailModule } from "@/mail/mail.module";
+import { CredentialModule } from "@/credential/credential.module";
+import { UserSchema, User } from "./user.schema";
+import { OtpModule } from "@/otp/otp.module";
+import { UserService } from "./user.service";
+import { UserController } from "./user.controller";
 
 @Module({
   imports: [
@@ -14,7 +14,8 @@ import { OtpModule } from 'src/otp/otp.module';
     MailModule,
     OtpModule,
   ],
-  providers: [UserService, UserResolver],
+  providers: [UserService],
+  controllers: [UserController],
   exports: [UserService],
 })
 export class UserModule {}

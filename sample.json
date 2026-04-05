@@ -1,0 +1,330 @@
+{
+	"trails": [
+		{
+			"id": 10933176,
+			"versionId": 3047947,
+			"name": "Agrion of Mercury Circuit",
+			"slug": "france/loire-atlantique/circuit-de-l-agrion-de-mercure",
+			"overview": "Head out on this 4.5-mile loop trail near La Chapelle-Heulin, Loire-Atlantique. Generally considered an easy route, it takes an average of 1 h 27 min to complete. This is a popular trail for birding, hiking, and mountain biking, but you can still enjoy some solitude during quieter times of day. The trail is open year-round and is beautiful to visit anytime. Dogs are welcome, but must be on a leash.",
+			"routeType": {
+				"uid": "L",
+				"name": "Loop"
+			},
+			"popularity": 65.636,
+			"location": {
+				"postalCode": null,
+				"city_id": 275669,
+				"city": "La Chapelle-Heulin",
+				"region": null,
+				"regionName": "Loire-Atlantique",
+				"country": "FR",
+				"country_name": "France",
+				"latitude": 47.1782,
+				"longitude": -1.34437
+			},
+			"attributes": {
+				"activities": [
+					{
+						"description": "",
+						"name": "Bird watching",
+						"uid": "birding",
+						"bitfieldPosition": 1,
+						"type": "activity"
+					},
+					{
+						"description": "",
+						"name": "Hiking",
+						"uid": "hiking",
+						"bitfieldPosition": 7,
+						"type": "activity"
+					},
+					{
+						"description": "",
+						"name": "Mountain biking",
+						"uid": "mountain-biking",
+						"bitfieldPosition": 9,
+						"type": "activity"
+					},
+					{
+						"description": "",
+						"name": "Trail running",
+						"uid": "trail-running",
+						"bitfieldPosition": 20,
+						"type": "activity"
+					}
+				],
+				"features": [
+					{
+						"description": "",
+						"name": "Dogs on leash",
+						"uid": "dogs-leash",
+						"bitfieldPosition": 4,
+						"type": "trail-feature"
+					},
+					{
+						"description": "",
+						"name": "Forest",
+						"uid": "forest",
+						"bitfieldPosition": 5,
+						"type": "trail-feature"
+					},
+					{
+						"description": "",
+						"name": "Historic site",
+						"uid": "historic-site",
+						"bitfieldPosition": 15,
+						"type": "trail-feature"
+					},
+					{
+						"description": "",
+						"name": "Kid friendly",
+						"uid": "kids",
+						"bitfieldPosition": 7,
+						"type": "trail-feature"
+					},
+					{
+						"description": "",
+						"name": "Partially paved",
+						"uid": "partially-paved",
+						"bitfieldPosition": 30,
+						"type": "trail-feature"
+					},
+					{
+						"description": "",
+						"name": "Wildflowers",
+						"uid": "wild-flowers",
+						"bitfieldPosition": 12,
+						"type": "trail-feature"
+					}
+				],
+				"obstacles": []
+			},
+			"defaultActivityStats": {
+				"activity": "default",
+				"rating": 4,
+				"difficulty": 1,
+				"duration": 313200,
+				"visitorUsage": 2,
+				"seasonStart": 1,
+				"seasonEnd": 12
+			},
+			"trailGeoStats": {
+				"length": 7242.03,
+				"elevationStart": 8.8392,
+				"elevationGain": 48.768,
+				"elevationMax": 16.764,
+				"durationMinutes": "87.0"
+			},
+			"defaultPhoto": {
+				"id": 59285137,
+				"title": "",
+				"description": null,
+				"likeCount": 0,
+				"photoHash": "fc0a1b984d9d8396addc9d12650bd1d5",
+				"dataUid": "560119FB-E40D-4866-AF4F-C50BC2753F8A",
+				"trailId": 10933176,
+				"trailIds": [
+					10933176
+				],
+				"location": {
+					"postalCode": null,
+					"city": null,
+					"region": null,
+					"country": null,
+					"latitude": 47.1835375,
+					"longitude": -1.3655066
+				},
+				"user": {
+					"id": 59053788,
+					"private": false,
+					"username": "didier-leclerc-6",
+					"firstName": "Didier",
+					"lastName": "LECLERC",
+					"slug": "didier-leclerc-6",
+					"admin": false,
+					"metric": true,
+					"displaySpeed": true,
+					"profilePhoto": {
+						"id": 59052226,
+						"title": null,
+						"description": null,
+						"photoHash": "94a914d054f7ead472f2c4aa220b8eed",
+						"trailId": null,
+						"location": {
+							"postalCode": null,
+							"city": null,
+							"region": null,
+							"country": null,
+							"latitude": null,
+							"longitude": null
+						},
+						"metadata": {
+							"created": "2023-05-02T18:48:44Z",
+							"updated": "2023-05-02T18:49:03Z",
+							"status": "A"
+						}
+					},
+					"pro": true,
+					"isPromoEligible": false,
+					"marketingLangPreference": "fr",
+					"location": {
+						"city": "Le Pallet",
+						"regionName": "Loire-Atlantique",
+						"countryName": "France",
+						"country": "FR"
+					},
+					"email_none": false,
+					"created": "2023-03-01T16:08:59Z",
+					"garminConnected": false
+				},
+				"metadata": {
+					"created": "2023-05-08T14:28:04Z",
+					"updated": "2023-05-08T15:13:32Z",
+					"status": "A"
+				}
+			},
+			"defaultMap": {
+				"id": 71718364,
+				"name": "Trail Planner Map",
+				"description": null,
+				"description_lang": null,
+				"description_original": null,
+				"presentationType": "map",
+				"slug": "trail-planner-map-68aea52--24",
+				"created_at": "2021-05-20T06:59:33Z",
+				"timezone": null,
+				"location": {
+					"postalCode": null,
+					"city": "La Chapelle-Heulin",
+					"region": null,
+					"country": "FR",
+					"country_id": 172,
+					"latitude": "47.1782",
+					"longitude": "-1.34437"
+				},
+				"bounds": {
+					"latitudeTopLeft": "47.18711",
+					"latitudeBottomRight": "47.17474",
+					"longitudeTopLeft": "-1.3714",
+					"longitudeBottomRight": "-1.34357"
+				},
+				"trailId": 10933176,
+				"activity": null,
+				"rating": null,
+				"comment": null,
+				"obstacles": null,
+				"user": null,
+				"dataUid": null,
+				"associatedTrailReviewId": null,
+				"originalAtMapId": 71718363,
+				"private": null,
+				"contentPrivacy": "urn:alltrails:visibility:public",
+				"hidden": null,
+				"popularity": null,
+				"summaryStats": {
+					"duration": 115,
+					"updatedAt": "2021-05-20T06:59:33+00:00",
+					"distanceTotal": 7262.69,
+					"elevationGain": 49,
+					"elevationLoss": 49
+				},
+				"profilePhotoId": null,
+				"photoCount": 0,
+				"splits": null,
+				"routes": [
+					{
+						"id": 1,
+						"sequenceNum": 1,
+						"status": "A",
+						"description": null,
+						"name": null,
+						"rating": null,
+						"trailId": null,
+						"location": {
+							"postalCode": null,
+							"city": "La Chapelle-Heulin",
+							"region": null,
+							"country": "FR",
+							"country_id": 172,
+							"latitude": "47.1782",
+							"longitude": "-1.34437"
+						},
+						"bounds": {
+							"latitudeTopLeft": "47.18711",
+							"latitudeBottomRight": "47.17474",
+							"longitudeTopLeft": "-1.3714",
+							"longitudeBottomRight": "-1.34357"
+						},
+						"createdAt": null,
+						"updatedAt": null,
+						"timezone": null,
+						"lineSegments": [
+							{
+								"id": 10001,
+								"sequenceNum": 1,
+								"status": "A",
+								"polyline": {
+									"pointsData": "wn}~GhqeGAMn@MCg@zD{AJ?FBHDFJDPBT?H??D`A?lAIpAL~CAdBErA@V??@d@BpA@b@PF~AHNf@F`AVlKDl@JDh@VjB|@^@ZtCFvB??BnA]Vk@j@YFiBN?AYBgAAKDINIdCKfCIdCA@NNCJqAzB[r@Q^eDpI??_BfEADaCtGkB|EGVAZA`@?~@RdJBfBF^FRLLb@LFZFv@YbFBLOhDOfD??DZDVDVBbA?r@?`@BL@L?DCFo@Xq@Zi@LoBNk@A_ASIA??o@Im@?YF{@f@u@TMPEPG`AQn@Q^aA{@??q@m@{AcBKY^uDf@iFZeDZgDZeD??@KsBc@sBc@gDkA_Cw@f@iCh@iCf@kCh@iCCA@MQuAMoAZ{B~@qDrAaHxBqGZiATu@`@gA??Zw@KkAEq@GaCEaAOcDGuA?Y@]??[f@s@~@_ApAeBhCEFg@x@}@~Aq@jAIJcA{AcA}AjAmAjAoA??E?UCaC}AaBqA?CeCgDz@cCh@mBA???BWJs@R}@TiAL]JY^}@Ri@\\Zj@d@f@Zl@`@`@Z@Q??Da@@s@XoB\\iAHU\\c@JUH]NOJg@P]NMZeB??\\kBh@N`@_C`@_C`@_CvB`AvB~@??lAj@pClALFzBbADSl@gCH_@@QVeABBl@`@r@f@L@LCr@a@??l@[rA_@Bf@o@L@L",
+									"elevationData": null,
+									"indexedElevationData": "?_emu@gEodkAgEne`@gEodkAgEoewKgE_~i@gE_jZgEne`@gEnsw@gEnvs@gEn|k@gEowHgE?gE_o}@gEnqPgE_~cHgE_pRgE~s}EgE_kiFgEoxzAgE?gEodkAgEovpDgEodhEgE~iZgEn|hDgEosw@gE~dtBgE~bu`@gEnbaDgEnnTgE~lVgE_`qAgEozDgEnrbBgEopuHgE?gEoljBgE~xcCgEnm_AgEozDgEo~lIgEn}@gE_{m@gEoljBgEotiCgEoezGgE_eqFgEnulYgEn`zBgEn}@gEnsw@gE~oRgEorbBgE~qsHgE~v|AgEo~rAgE?gE__yFgEnzDgEo__LgE~pxQgE_jZgE_af@gEoofBgE~itGgEnj`EgE__sNgE_uu@gEozDgEnkXgE~paFgE~s`BgE~`f@gE_shGgEoyo@gE_y}JgEn`zBgE?gEozDgEowHgEn_h@gEnnqCgE~|tAgEnpxDgE~heAgEnrbBgEn|k@gE~tu@gE_hpBgE_hjJgE_xnDgEnz~FgEoezGgE_~i@gE?gE?gE_|BgEoaoAgEnaoAgEnnnGgEoezGgE_cjEgEonTgE~~{BgEoljBgE_t}EgEojqXgE?gE~p{MgEnaz\\gE~iZgEnaoAgEnfoFgE_yFgEn`tJgE~meFgE?gEozDgE_ffEgE__|BgE_hjJgE_mmKgE_l~DgEnjcAgEninBgEogdEgEotLgE_t`BgE_d|GgEndhEgE~|bYgEoplTgEnqgKgEoldJgE~oRgEo_h@gEnlgFgE?gE_zxAgEou~AgEnxzAgEng{PgEnu~AgEoqPgE~`f@gEn_h@gEnqPgE?gE~rNgE_g^gE~gpBgEok`_@gEop{@gEonkKgEnmmXgEnbd@gEo~rAgEou{EgEop{@gEnyiHgE_ibEgE?gEndkAgEndhEgE_laAgE_||FgE_|BgEnnkKgE~{|FgE~yoMgE?gE?gEnbd@gEo{vAgE_wsMgE_{m@gE_sNgEoxzAgEo}}BgEozDgE_`nEgEopuHgEoinBgEndhEgEnkrGgEoqPgE?gE_db@gEoggAgEn|_PgE~~xFgE~kaAgEnm_AgEne`@gE_sNgE_qdBgE~qy@gE_ffEgEo_eDgE_yFgE?gEninBgEnm_AgE~oRgEob~GgEo|k@gE_azOgE~}i@gE?gE_`_YgEnowUgE_sNgEng~LgE~rkCgEncgVgE_qaFgE_etBgEnyo@gE_sNgEou{EgEo{mMgE_ieAgE_yFgE~p{MgE?gE_nhBgEnkXgEndkAgEoe`@gEndkA"
+								},
+								"lineGeoStats": {
+									"distanceTotal": 0,
+									"elevationStart": null,
+									"elevationEnd": null,
+									"elevationGain": 0,
+									"elevationLoss": 0,
+									"elevationMax": null,
+									"elevationMin": null
+								}
+							}
+						],
+						"lineGeoStats": {
+							"distanceTotal": 0,
+							"elevationStart": null,
+							"elevationEnd": null,
+							"elevationGain": 0,
+							"elevationLoss": 0,
+							"elevationMax": null,
+							"elevationMin": null
+						}
+					}
+				],
+				"waypoints": [],
+				"mapPhotos": [],
+				"metadata": {
+					"created": "2021-05-20T06:59:33Z",
+					"updated": "2021-05-20T06:59:33Z",
+					"status": "A",
+					"source": 1033,
+					"timezone": null
+				}
+			},
+			"trailDetail": null,
+			"metadata": {
+				"created": "2021-04-14T15:45:15Z",
+				"updated": "2023-05-29T07:36:10Z",
+				"status": "A"
+			},
+			"ratingsBreakdown": {
+				"2": 1,
+				"3": 2,
+				"4": 4,
+				"5": 11
+			},
+			"trailCounts": {
+				"reviewCount": 18,
+				"photoCount": 15,
+				"trackCount": 24,
+				"completedCount": 23
+			},
+			"name_source": "Circuit de L'Agrion de Mercure",
+			"overview_source": "Discover this 4.5-mile loop trail near La Chapelle-Heulin, Loire-Atlantique. Generally considered an easy route, it takes an average of 1 h 27 min to complete. This is a popular trail for birding, hiking, and mountain biking, but you can still enjoy some solitude during quieter times of day. The trail is open year-round and is beautiful to visit anytime. Dogs are welcome, but must be on a leash."
+		}
+	],
+	"meta": {
+		"status": "ok",
+		"items": 1,
+		"timestamp": "2023-05-29T19:33:31Z"
+	}
+}

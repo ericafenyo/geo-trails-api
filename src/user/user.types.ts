@@ -1,51 +1,21 @@
-import {
-  InputType,
-  ObjectType,
-  Field,
-  ID,
-  registerEnumType,
-} from '@nestjs/graphql';
+import { ApiProperty } from "@nestjs/swagger";
 
-enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-  UNSPECIFIED = 'UNSPECIFIED',
+export class User {
+  id: string;
+  email: string;
+  username: string;
 }
 
-registerEnumType(Gender, { name: 'Gender' });
-
-@ObjectType()
-export class UserType {
-  @Field(() => ID, { name: 'id' })
-  _id: string;
-
-  @Field()
-  uuid: string;
-
-  @Field()
+export class UnregisteredUser {
+  @ApiProperty()
   email: string;
 
-  @Field()
-  username: string;
-
-  @Field()
-  createdAt: Date;
-
-  @Field()
-  updatedAt: Date;
-}
-
-@InputType()
-export class CreateUserInput {
-  @Field()
-  username: string;
-
-  @Field()
-  email: string;
-
-  @Field()
+  @ApiProperty()
   password: string;
+}
 
-  @Field(() => Gender)
-  gender: Gender;
+export enum Status {
+  ACTIVE = "active",
+  SUSPENDED = "suspended",
+  DELETED = "deleted",
 }

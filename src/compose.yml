@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - .db:/mongo/data
+
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+volumes:
+  .db:

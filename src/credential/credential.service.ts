@@ -1,21 +1,45 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Credential } from './credential.schema';
-import { Model } from 'mongoose';
-import bcrypt = require('bcrypt');
+import { Injectable, NotFoundException } from "@nestjs/common";
+import bcrypt = require("bcrypt");
+import { User } from "@/user/user.entity";
+import { errors } from "@/errors";
+import { Credential } from "./credential.entity";
 
 @Injectable()
 export class CredentialService {
-  constructor(@InjectModel(Credential.name) private model: Model<Credential>) {}
+  constructor() {}
 
-  async save(userId: string, password: string): Promise<void> {
+  private userRepository: any = {};
+
+  private credentialRepository: any = {};
+
+  async save(email: string, password: string): Promise<void> {
     const hashedPassword = await this.hash(password);
-    await new this.model({ userId: userId, password: hashedPassword }).save();
+
+    // Retrieve the user from the database.
+    const user = await this.findUserByEmail(email);
+    if (!user) {
+      throw new NotFoundException(errors.user.accountNotFound);
+    }
+
+    // Save the credentials
+    const credentials = this.credentialRepository.create();
+    credentials.user = user;
+    credentials.password = hashedPassword;
+
+    await this.credentialRepository.save(credentials);
   }
 
-  private async hash(password: string) {
-    const saltRounds = 14;
-    return await bcrypt.hash(password, saltRounds);
+  async validate(user: User, candidate: string): Promise<boolean> {
+    const credentials = await this.credentialRepository
+      .createQueryBuilder("credentials")
+      .where("user_id=:userId", { userId: user.id })
+      .getOne();
+
+    if (!credentials) {
+      return false;
+    }
+
+    return await this.isValid(candidate, credentials.password);
   }
 
   /**
@@ -28,14 +52,12 @@ export class CredentialService {
     return await bcrypt.compare(candidate, hashed);
   }
 
-  async validate(userId: string, candidate: string): Promise<boolean> {
-    const credentials = await this.model.findOne({ userId });
+  private async hash(password: string) {
+    const saltRounds = 14;
+    return await bcrypt.hash(password, saltRounds);
+  }
 
-    if (!credentials) {
-      return false;
-    }
-
-    console.log('Body', credentials, userId);
-    return await this.isValid(candidate, credentials.password);
+  private async findUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOneBy({ email });
   }
 }

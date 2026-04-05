@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: geo-trails-api
+  namespace: geo-trails-api
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: geo-trails-api-geo-trails-api-strip-prefix@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: api.ericafenyo.com
+      http:
+        paths:
+          - path: /geo-trails
+            pathType: Prefix
+            backend:
+              service:
+                name: geo-trails-api
+                port:
+                  number: 80

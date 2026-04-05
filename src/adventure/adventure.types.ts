@@ -1,163 +1,110 @@
-import { Field, GraphQLTimestamp, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
+
+export enum DistanceUnit {
+  METERS = "METERS",
+  KILOMETERS = "KILOMETERS",
+  MILES = "MILES",
+}
+
+
+export class Distance {
+  value: number;
+  type: DistanceUnit;
+}
+
+export class DistanceInput {
+  value: number;
+  type: DistanceUnit;
+}
+
+export enum EnergyUnit {
+  CALORIES = "CALORIES",
+  KILOCALORIES = "KILOCALORIES",
+  JOULES = "JOULES",
+  KILOJOULES = "KILOJOULES",
+}
+
+
+
+export class Energy {
+  value: number;
+  type: EnergyUnit;
+}
+
+
+export class EnergyInput {
+  value: number;
+  type: EnergyUnit;
+}
+
+export enum SpeedUnit {
+  METERS_PER_SECOND = "METERS_PER_SECOND",
+  KILOMETERS_PER_HOUR = "KILOMETERS_PER_HOUR",
+  MILES_PER_HOUR = "MILES_PER_HOUR",
+}
+
+export class Speed {
+  value: number;
+  type: SpeedUnit;
+}
+
+export class SpeedInput {
+  value: number;
+  type: SpeedUnit;
+}
+
 export class Location {
-  @Field()
   latitude: number;
-
-  @Field()
   longitude: number;
-
-  @Field()
   altitude: number;
-
-  @Field(() => GraphQLTimestamp)
   time: number;
-
-  @Field()
-  speed: number;
-
-  @Field()
+  speed: Speed;
   accuracy: number;
-
-  @Field()
   bearing: number;
 }
 
-@ObjectType()
-export class Trace {
-  @Field()
-  timezone: string;
 
-  @Field()
-  writeTime: Date;
-
-  @Field(() => Location)
-  location: Location;
-}
-
-@ObjectType()
 export class Adventure {
-  @Field(() => ID, { name: 'id' })
-  _id?: string;
-
-  @Field()
   uuid: string;
-
-  @Field()
   title: string;
-
-  @Field()
   description: string;
-
-  @Field()
-  altitude: number;
-
-  @Field(() => Int)
-  calories: number;
-
-  @Field()
-  distance: number;
-
-  @Field(() => Int)
+  energy: Energy;
+  distance: Distance;
   duration: number;
-
-  @Field()
   startTime: Date;
-
-  @Field()
   endTime: Date;
-
-  @Field()
-  speed: number;
-
-  @Field()
+  speed: Speed;
   polyline: string;
-
-  @Field(() => [Trace])
-  traces: Trace[];
-
-  @Field()
+  locations: Location[];
   createdAt: Date;
-
-  @Field()
   updatedAt: Date;
 }
 
-@InputType()
+
 export class LocationInput {
-  @Field()
+  writeTime: number;
+  timezone: string;
   latitude: number;
-
-  @Field()
   longitude: number;
-
-  @Field()
   altitude: number;
-
-  @Field(() => GraphQLTimestamp)
   time: number;
-
-  @Field()
-  speed: number;
-
-  @Field()
+  speed: SpeedInput;
   accuracy: number;
-
-  @Field()
   bearing: number;
 }
 
-@InputType()
-export class TraceInput {
-  @Field()
-  timezone: string;
-
-  @Field()
-  writeTime: Date;
-
-  @Field(() => LocationInput)
-  location: LocationInput;
-}
-
-@InputType()
 export class AdventureInput {
-  @Field()
   uuid: string;
-
-  @Field()
   title: string;
-
-  @Field()
   description: string;
-
-  @Field()
   altitude: number;
-
-  @Field(() => Int)
-  calories: number;
-
-  @Field()
-  distance: number;
-
-  @Field(() => Int)
+  energy: EnergyInput;
+  distance: DistanceInput;
   duration: number;
-
-  @Field()
   startTime: Date;
-
-  @Field()
   endTime: Date;
-
-  @Field()
-  speed: number;
-
-  @Field()
+  speed: SpeedInput;
   polyline: string;
-
-  @Field()
   image: String;
-
-  @Field(() => [TraceInput])
-  traces: TraceInput[];
+  locations: LocationInput[];
 }

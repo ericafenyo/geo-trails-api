@@ -1,6 +1,6 @@
 class EmailManager {
   sendEmail() {
-    console.log('Sending email');
+  
   }
 }
 

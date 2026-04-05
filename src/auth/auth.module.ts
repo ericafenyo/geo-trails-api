@@ -8,6 +8,7 @@ import { LocalStrategy } from './local.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RefreshToken, RefreshTokenSchema } from './refresh-token.schema';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthController } from './auth.controller';
 
 const secret = process.env.JWT_SECRET;
 @Module({
@@ -23,5 +24,6 @@ const secret = process.env.JWT_SECRET;
   ],
   providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy],
   exports: [AuthService],
+  controllers: [AuthController],
 })
 export class AuthModule {}
