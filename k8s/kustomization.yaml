@@ -10,4 +10,4 @@ resources:
 
 images:
   - name: ghcr.io/ericafenyo/geo-trails-api
-    newTag: 960023a19b3c844c253e7db292695cb911d8a0e5
+    newTag: ceb720d8a356a32b95c321e7926e80f0e725c5d6
