@@ -5,6 +5,7 @@ export class User {
   email: string;
   username: string;
 }
+
 export class UnregisteredUser {
   @ApiProperty()
   email: string;
@@ -16,4 +17,5 @@ export class UnregisteredUser {
 export enum Status {
   ACTIVE = "active",
   SUSPENDED = "suspended",
+  DELETED = "deleted",
 }

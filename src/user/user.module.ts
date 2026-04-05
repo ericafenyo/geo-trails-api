@@ -1,23 +1,21 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { MailModule } from "../mail/mail.module";
-import { CredentialModule } from "../credential/credential.module";
-import { UserSchema } from "./user.schema";
-import { UserService } from "./user.service";
+import { MailModule } from "@/mail/mail.module";
+import { CredentialModule } from "@/credential/credential.module";
+import { UserSchema, User } from "./user.schema";
 import { OtpModule } from "@/otp/otp.module";
+import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
-import { USER_MODEL } from "@/constants/model-names";
-import { UserRepository } from "./user.repository";
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: USER_MODEL, schema: UserSchema }]), 
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     CredentialModule,
     MailModule,
     OtpModule,
   ],
-  providers: [UserService, UserRepository],
-  exports: [UserService],
+  providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

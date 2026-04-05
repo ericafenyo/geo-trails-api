@@ -1,38 +1,31 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-  BadRequestException,
-} from "@nestjs/common";
-import { User, UserDocument } from "./user.schema";
-import { CredentialService } from "../credential/credential.service";
-import { MailService } from "../mail/mail.service";
-import { UnregisteredUser } from "./user.types";
-import { EmailAddressManager } from "@/util/email-address-manager";
-import { UserIdentity } from "@/auth/auth.types";
-import { Resource } from "@/types/resource";
-import { ResourceIdentifier } from "@/types/resource";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { USER_MODEL } from "@/constants/model-names";
 import { Model } from "mongoose";
-import { Repository } from "@/repository";
-import { UserRepository } from "./user.repository";
+import crypto from "crypto";
 
-const crypto = require("crypto");
+import { User, UserDocument } from "./user.schema";
+import { CredentialService } from "@/credential/credential.service";
+import { MailService } from "@/mail/mail.service";
+import { UnregisteredUser } from "./user.types";
+import { UserIdentity } from "@/auth/auth.types";
+import { ResourceIdentifier } from "@/types/resource";
 
 @Injectable()
 export class UserService {
-  remove(id: string) {
-    throw new Error("Method not implemented.");
-  }
-  update(id:  string, updateUserDto: any) {
-    throw new Error("Method not implemented.");
-  }
   constructor(
-    @InjectModel(USER_MODEL) private readonly model: Model<UserDocument>,
+    @InjectModel(User.name) private readonly model: Model<UserDocument>,
     private readonly credentialService: CredentialService,
     private readonly mailService: MailService,
   ) {}
+
+  remove(id: string) {
+    throw new Error("Method not implemented.");
+  }
+
+  update(id: string, updateUserDto: any) {
+    throw new Error("Method not implemented.");
+  }
+
 
   /**
    * Add a user to the database.
@@ -46,13 +39,13 @@ export class UserService {
       code: this.generateCode(),
     };
 
-    const document =  new this.model(model);
+    const document = new this.model(model);
 
 
     // console.log({document});
 
     await this.mailService.sendAccountVerificationCode(user.email, { code: document.code });
-    
+
 
     return { id: document.uuid };
     // return await document.save();

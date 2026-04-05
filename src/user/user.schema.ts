@@ -29,13 +29,7 @@ export class User {
    * The username of the user.
    */
   @Prop({ unique: true, sparse: true })
-  username?: string;
-
-  @Prop({default: ""})
-  firstName: string;
-
-  @Prop({default: ""})
-  lastName: string;
+  username: string;
 
   @Prop({enum: Status,required: true, default: Status.ACTIVE})
   status: Status;
