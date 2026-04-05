@@ -35,3 +35,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 src/schema.gql
+
+# AI generated files
+/CLAUDE.md
+/.claude/
