@@ -1,0 +1,12 @@
+namespace: geo-trails-api
+
+replicaCount: 2
+
+image:
+  tag: 1.0.0
+
+env:
+  nodeEnv: production
+
+ingress:
+  host: geo-trails.api.ericafenyo.com
