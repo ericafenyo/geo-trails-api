@@ -1,16 +1,30 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { randomBytes } from "crypto";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { JwtService, JwtSignOptions } from "@nestjs/jwt";
 import { UserService } from "@/user/user.service";
+import { MailService } from "@/mail/mail.service";
+import { OtpService } from "@/otp/otp.service";
 import { RefreshToken } from "./refresh-token.schema";
 import { UserIdentity } from "./auth.types";
 
 export interface JWTokens {
   accessToken: string;
   refreshToken: string;
+  expiresIn: number;
+}
+
+export interface OtpChallengeResource {
+  request_id: string;
+  expires_in: number;
+}
+
+export interface VerifyOtpRequest {
+  email: string;
+  request_id: string;
+  code: string;
 }
 
 @Injectable()
@@ -18,6 +32,8 @@ export class AuthService {
   constructor(
     @InjectModel(RefreshToken.name) private model: Model<RefreshToken>,
     private userService: UserService,
+    private otpService: OtpService,
+    private mailService: MailService,
     private jwtService: JwtService,
   ) {}
 
@@ -37,18 +53,46 @@ export class AuthService {
    *
    * @returns a {@link JWTokens} object.
    */
-  async getToken(user: UserIdentity): Promise<any> {
+  async getToken(user: UserIdentity): Promise<JWTokens> {
+    const expiresIn = this.getAccessTokenExpiresIn();
     return {
       accessToken: await this.generateAccessToken(user),
       refreshToken: await this.generateRefreshToken(user),
+      expiresIn,
     };
+  }
+
+  async startOtpLogin(email: string): Promise<OtpChallengeResource> {
+    const challenge = await this.otpService.createAccountVerificationChallenge(email);
+
+    await this.mailService.sendAccountVerificationCode(email, { code: challenge.code });
+
+    return {
+      request_id: challenge.requestId,
+      expires_in: challenge.expiresIn,
+    };
+  }
+
+  async verifyOtpLogin(request: VerifyOtpRequest): Promise<JWTokens> {
+    await this.otpService.verifyAccountVerificationChallenge({
+      email: request.email,
+      requestId: request.request_id,
+      code: request.code,
+    });
+
+    const user = await this.userService.findOrCreateActivatedByEmail(request.email);
+    if (!user) {
+      throw new UnauthorizedException("Unable to verify one-time code");
+    }
+
+    return await this.getToken({ id: user.uuid, email: user.email });
   }
 
   async generateAccessToken(user: UserIdentity): Promise<string> {
     const payload = { email: user.email };
     const options: JwtSignOptions = {
       audience: process.env.JWT_AUDIENCE,
-      expiresIn: 86400,
+      expiresIn: this.getAccessTokenExpiresIn(),
       subject: `auth|${user.id}`,
       secret: process.env.JWT_SECRET,
     };
@@ -76,5 +120,13 @@ export class AuthService {
 
     await refreshToken.save();
     return refreshToken.value;
+  }
+
+  private getAccessTokenExpiresIn(): number {
+    const parsed = Number(process.env.JWT_EXPIRY);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      return 86400;
+    }
+    return parsed;
   }
 }

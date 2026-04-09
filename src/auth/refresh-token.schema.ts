@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from '@/user/user.entity';
 
 @Schema()
 export class RefreshToken extends Document {
@@ -25,8 +24,8 @@ export class RefreshToken extends Document {
   /**
    * Date and time when token was revoked
    */
-  @Prop({ type: Types.ObjectId, ref: User.name })
-  userId: Types.ObjectId;
+  @Prop({ required: true })
+  userId: string;
 
   /**
    * Creation date & time

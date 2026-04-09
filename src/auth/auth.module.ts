@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RefreshToken, RefreshTokenSchema } from './refresh-token.schema';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
+import { OtpModule } from '@/otp/otp.module';
+import { MailModule } from '@/mail/mail.module';
 
 const secret = process.env.JWT_SECRET;
 @Module({
@@ -21,6 +23,8 @@ const secret = process.env.JWT_SECRET;
       { name: RefreshToken.name, schema: RefreshTokenSchema },
     ]),
     UserModule,
+    OtpModule,
+    MailModule,
   ],
   providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy],
   exports: [AuthService],

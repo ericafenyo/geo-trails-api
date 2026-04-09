@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import crypto from "crypto";
@@ -34,15 +34,14 @@ export class UserService {
    */
   async create(user: UnregisteredUser): Promise<ResourceIdentifier> {
     const model = {
-      email: user.email,
+      email: user.email.trim().toLowerCase(),
       uuid: crypto.randomUUID(),
       code: this.generateCode(),
     };
 
     const document = new this.model(model);
 
-
-    // console.log({document});
+    await document.save();
 
     await this.mailService.sendAccountVerificationCode(user.email, { code: document.code });
 
@@ -98,15 +97,13 @@ export class UserService {
   }
 
   async findById(id: string, validate: boolean = true): Promise<User> {
-    // const user = await this.repository.findOne({ uuid: id });
+    const user = await this.model.findOne({ uuid: id }).exec();
 
-    // if (validate) {
-    //   if (!user) {
-    //     throw new NotFoundException(errors.user.accountNotFound);
-    //   }
-    // }
+    if (validate && !user) {
+      throw new NotFoundException(errors.user.accountNotFound);
+    }
 
-    return null;
+    return user;
   }
 
   /**
@@ -116,11 +113,33 @@ export class UserService {
    * @param validate if true, throw error if the user does not exist
    */
   async findByEmail(email: string, validate = true): Promise<User> {
-    // const user = await this.repository.findOne();
-    // if (validate && !user) {
-    //   throw new NotFoundException(errors.user.accountNotFound);
-    // }
-    return null;
+    const user = await this.model.findOne({ email: email.trim().toLowerCase() }).exec();
+    if (validate && !user) {
+      throw new NotFoundException(errors.user.accountNotFound);
+    }
+    return user;
+  }
+
+  async findOrCreateActivatedByEmail(email: string): Promise<User> {
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await this.findByEmail(normalizedEmail, false);
+
+    if (!user) {
+      const created = await this.model.create({
+        email: normalizedEmail,
+        uuid: crypto.randomUUID(),
+        code: this.generateCode(),
+        activated: true,
+      });
+      return created;
+    }
+
+    if (!user.activated) {
+      user.activated = true;
+      await user.save();
+    }
+
+    return user;
   }
 
   // /**
@@ -216,13 +235,17 @@ export class UserService {
   }
 
   async validate(email: string, password: string): Promise<UserIdentity | null> {
-    // const user = await this.findByEmail(email);
+    const user = await this.findByEmail(email, false);
+    if (!user) {
+      return null;
+    }
 
-    // const isValid = await this.credentialService.validate(user, password);
-
-    // return isValid ? { id: user.uuid, email: email } : null;
-
-    return null;
+    try {
+      const isValid = await this.credentialService.validate(user as any, password);
+      return isValid ? { id: user.uuid, email: user.email } : null;
+    } catch {
+      return null;
+    }
   }
 
   private generateCode() {
