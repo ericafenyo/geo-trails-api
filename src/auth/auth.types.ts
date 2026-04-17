@@ -1,4 +1,3 @@
 export interface UserIdentity {
-  id: string;
-  email: string;
+  sub: string;
 }

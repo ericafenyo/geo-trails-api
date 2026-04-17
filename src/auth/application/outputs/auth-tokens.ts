@@ -1,5 +1,5 @@
-export class Tokens {
+export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
-  expiresIn: number;
+  idToken: string;
 }

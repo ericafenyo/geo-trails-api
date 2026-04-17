@@ -1,7 +1,8 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { Logger } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
+import { ProblemDetailFilter } from "./filters/problem-detail.filter";
 
 require("dotenv").config();
 
@@ -9,6 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableVersioning();
+  app.useGlobalFilters(new ProblemDetailFilter());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle("API Documentation")
@@ -20,8 +28,9 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
 
-  await app.listen(port, () => {
-    Logger.log(`Listening on port ${port}`, "NestApplication");
+  await app.listen(port, async () => {
+    const url = await app.getUrl();
+    Logger.log(url, "NestApplication");
   });
 }
 

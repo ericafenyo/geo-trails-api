@@ -1,22 +1,13 @@
 export interface ResourceData<T> {
-  id?: string;
+  id: string;
   type: string;
   attributes: T;
 }
 
-export interface Exception {
-  status: string;
-  code: string;
-  title: string;
-  detail: string;
-}
-
-export type ResourceIdentifier = {
-  id: string;
-};
-
-export interface Attributes {
-  [key: string]: any;
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
 }
 
 export class Resource<T> {
@@ -24,5 +15,16 @@ export class Resource<T> {
 
   static create<T>(data: ResourceData<T>): Resource<T> {
     return new Resource(data);
+  }
+}
+
+export class PaginatedResource<T> {
+  private constructor(
+    public readonly data: ResourceData<T>[],
+    public readonly meta: PaginationMeta,
+  ) {}
+
+  static create<T>(data: ResourceData<T>[], meta: PaginationMeta): PaginatedResource<T> {
+    return new PaginatedResource(data, meta);
   }
 }

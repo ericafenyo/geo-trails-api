@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Env / secrets
+.env*
+*.pem
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 🔥 High-impact additions for backend
+
+# Lock files (VERY large, useless for reasoning)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Swagger / generated docs
+swagger.json
+openapi.json
+
+# Temp / dumps
+tmp/
+temp/
+*.tmp
+
+# Uploads / media
+uploads/
+media/
+
+# Mongo dumps / exports
+*.bson
+*.jsonl
+
+# Test artifacts
+jest-report/
+test-results/

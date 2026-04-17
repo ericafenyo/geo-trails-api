@@ -14,7 +14,7 @@ const config: Config = {
   testEnvironment: 'node',
 
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
-    prefix: '<rootDir>/',
+    prefix: '<rootDir>/../',
   }),
 };
 

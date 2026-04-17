@@ -1,29 +1,64 @@
-import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from '../user/user.module';
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
-import { LocalStrategy } from './local.strategy';
-import { MongooseModule } from '@nestjs/mongoose';
-import { RefreshToken, RefreshTokenSchema } from './refresh-token.schema';
-import { JwtStrategy } from './jwt.strategy';
-import { AuthController } from './auth.controller';
+import { Module } from "@nestjs/common";
+import { PassportModule } from "@nestjs/passport";
+import { JwtStrategy } from "./jwt.strategy";
+import { AuthController } from "./auth.controller";
+import { AUTH_PROVIDER } from "./application/interfaces/auth-provider.interface";
+import { RopgAuthProvider } from "./infrastructure/ropg-auth-provider";
+import { RopgClient } from "./infrastructure/ropg-client";
+import { LoginInteractor } from "./application/interactors/login.interactor";
+import { RefreshInteractor } from "./application/interactors/refresh.interactor";
+import { RevokeInteractor } from "./application/interactors/revoke.interactor";
+import { GetUserInfoInteractor } from "./application/interactors/get-user-info.interactor";
 
-const secret = process.env.JWT_SECRET;
 @Module({
   imports: [
     PassportModule.register({
-      defaultStrategy: 'jwt',
+      defaultStrategy: "jwt",
     }),
-    JwtModule.register({ secret }),
-    MongooseModule.forFeature([
-      { name: RefreshToken.name, schema: RefreshTokenSchema },
-    ]),
-    UserModule,
   ],
-  providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy],
-  exports: [AuthService],
+  providers: [
+    JwtStrategy,
+    {
+      provide: RopgClient,
+      useFactory: () => {
+        const domain = process.env.OAUTH_DOMAIN;
+        const clientId = process.env.OAUTH_CLIENT_ID;
+        const clientSecret = process.env.OAUTH_CLIENT_SECRET;
+        const audience = process.env.OAUTH_AUDIENCE;
+        if (!domain || !clientId || !clientSecret || !audience) {
+          throw new Error(
+            "Missing required OAuth env vars: OAUTH_DOMAIN, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUDIENCE",
+          );
+        }
+        return new RopgClient(domain, clientId, clientSecret, audience);
+      },
+    },
+    {
+      provide: AUTH_PROVIDER,
+      useFactory: (client: RopgClient) => new RopgAuthProvider(client),
+      inject: [RopgClient],
+    },
+    {
+      provide: LoginInteractor,
+      useFactory: provider => new LoginInteractor(provider),
+      inject: [AUTH_PROVIDER],
+    },
+    {
+      provide: RefreshInteractor,
+      useFactory: provider => new RefreshInteractor(provider),
+      inject: [AUTH_PROVIDER],
+    },
+    {
+      provide: RevokeInteractor,
+      useFactory: provider => new RevokeInteractor(provider),
+      inject: [AUTH_PROVIDER],
+    },
+    {
+      provide: GetUserInfoInteractor,
+      useFactory: provider => new GetUserInfoInteractor(provider),
+      inject: [AUTH_PROVIDER],
+    },
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}
